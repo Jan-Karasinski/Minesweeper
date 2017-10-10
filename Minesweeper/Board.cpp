@@ -7,10 +7,6 @@
 #include <deque>
 #include "Board.h"
 
-//#define TEST
-//#define DISPLAY_FIELD_INFO
-//#define DEBUG_REVEAL
-
 int n_of_digits(size_t num) {
 	int digits{ 0 };
 	while (num) {
@@ -159,7 +155,7 @@ void Board::Reveal(size_t x, size_t y) {
 
 void Board::UncoverAll() {
 	for (size_t y = 0; y < Height; y++) {
-		for (size_t x = 0; x < Height; x++) {
+		for (size_t x = 0; x < Width; x++) {
 			fields[y][x].isCovered = 0;
 		}
 	}
@@ -237,36 +233,42 @@ Board::Board(width w, height h, mines m) : Width(w), Height(h), Mines(m)
 }
 
 void Board::Draw() {
-	std::cout << "\n\n";
+	std::cout << "\n";
 
-	// horizontal orientation of row indexes > 10
-	for (int x = n_of_digits(Height); x != 0; x--) {
-		for (int x = n_of_digits(Height); x != 0; x--) {
-			std::cout << ' ';
-		}
-		for (size_t i = 0; i != 10; i++) {
-			std::cout << "  ";
-		}
-		std::cout << "d\n";
-	}
-
-	//spaces before row indexes (for align)
-	for (int x = n_of_digits(Height); x != 0; x--) {
+	// alignment of tens of col indexes
+	if (Height > 9) {
 		std::cout << ' ';
 	}
-	//row indexes
-	for (size_t i = 1; i <= Width; i++) {
-		std::cout << ' ' << i;
+	// for col indexes < 10
+	for (size_t i = 0; i < 10; i++) {
+		std::cout << "  ";
+	}
+	// tens of col indexes
+	for (size_t i = 10; i <= Width; i++) {
+		std::cout << (i/10)%10 << ' ';
 	}
 	std::cout << '\n';
+
+	//spaces before units of col indexes (for alignment)
+	if (Height > 9) {
+		std::cout << "  ";
+	}
+	else std::cout << ' ';
+
+	//units of col indexes
+	for (size_t i = 1; i <= Width; i++) {
+		std::cout << ' ' << i%10;
+	}
+	std::cout << "\n\n";
 
 	Field* field{ nullptr };
 	for (size_t y = 1; y <= Height; y++) {
 		
-		for (int x = n_of_digits(Height) - n_of_digits(y); x > 0; x--) {
+		// alignment for row idx < 10
+		if(Height > 9 && y < 10) {
 			std::cout << ' ';
 		}
-
+		// row idx
 		std::cout << y;
 		for (size_t x = 1; x <= Width; x++) {
 			field = GetField(x, y);

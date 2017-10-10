@@ -6,7 +6,6 @@
 #include <iostream>
 #include <sstream>
 
-
 /*
 Board
 	+ GameStatus : bool
@@ -69,8 +68,8 @@ size_t GetParam(const char* d) {
 int main() {
 	do {
 		size_t width{ 0 }, height{ 0 }, mines{ 0 };
-		while (width < 9 || width > 30
-			|| height < 9 || height > 24
+		while (width < 9 || width > 35
+			|| height < 9 || height > 35
 			|| !mines || mines >= width*height) {
 			width  = GetParam("Width");
 			height = GetParam("Height");
