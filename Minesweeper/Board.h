@@ -9,6 +9,7 @@ typedef size_t mines;
 class Board {
 public:
 	bool GameStatus{ 1 };
+	bool Win{ 0 };
 
 private:
 	width  Width;
@@ -17,6 +18,7 @@ private:
 
 	std::vector<std::vector<Field>> fields{ Height };
 
+private:
 	size_t CountMines(size_t, size_t);
 	
 	//index should start from 1
@@ -25,8 +27,6 @@ private:
 	void Reveal(size_t, size_t);
 
 	void UncoverAll();
-
-	size_t GetCoordFromUser(const char&);
 
 	bool OnlyMinesLeft();
 
